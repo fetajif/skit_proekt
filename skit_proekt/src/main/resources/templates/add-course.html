@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/courses/add" method="post">
+    <div>
+        <label for="name">Course name</label>
+        <input type="text" id="name" name="name" th:value="(${course} != null ? ${course.getName()} : '')" required placeholder="Enter course name">
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" th:value="(${course} != null ? ${course.getDescription()} : '')" required placeholder="Enter description">
+    </div>
+
+
+    <div>
+        <label>Teacher</label>
+         <select name="teacherId">
+        <option th:if="${course}!=null"
+                th:selected="${course.getTeacher() != null && course.getTeacher().getId() == teacher.getID()}"
+                th:each="teacher : ${teachers}"
+                th:value="${teacher.getID()}"
+                th:text="${teacher.getNAME()}">
+
+        </option>
+        <option th:if="${course}==null"
+                th:each="teacher : ${teachers}"
+                th:value="${teacher.getID()}"
+                th:text="${teacher.getNAME()}">
+        </option>
+    </select>
+    </div>
+
+    <div>
+        Course Type: <select name="type">
+        <option th:if="${course}!=null"
+                th:selected="${course.getType() != null && course.getType() == type }"
+                th:each="type : ${courseTypes}"
+                th:value="${type}"
+                th:text="${type}">
+
+        </option>
+        <option th:if="${course}==null"
+                th:each="type : ${courseTypes}"
+                th:value="${type}"
+                th:text="${type}">
+        </option>
+        </select>
+    </div>
+
+
+    <button name="submit" type="submit">Submit</button>
+    <a type="button" href="/courses">Back</a>
+</form>
+</body>
+</html>

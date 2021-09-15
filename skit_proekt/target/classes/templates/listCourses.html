@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Welcome and Choose a Course</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Courses List</h1>
+</header>
+<main>
+    <div>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <a class="addCourse" href="/courses/add-form">Add new Course</a>
+        </th:block>
+    </div>
+    <h2>Choose course:</h2>
+    <form th:method="POST" th:action="@{/listCourses}">
+        <ul>
+            <li class="course" th:each="course : ${courses}">
+                <input th:type="radio" name="courseId" th:id="${course.courseId}" th:value="${course.courseId}" />
+                <th:block th:text="${course.getName()}"/>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="editCourse" th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}">Edit</a>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="deleteCourse" th:href="@{'/courses/delete/{id}' (id=${course.getCourseId()})}">Delete</a>
+                </th:block>
+            </li>
+        </ul>
+        <input type='submit' value='Submit'/>
+        <a href="/addStudent">Submit</a>
+    </form>
+
+    <form method="post" th:action="@{/listCourses}">
+
+    </form>
+</main>
+</body>
+</html>

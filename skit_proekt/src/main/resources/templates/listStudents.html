@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Add new Student to Course</title>
+    <style type = "text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+        table {
+            width:100%;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding:3px 2px;
+        }
+        section {
+            float: left;
+            margin: 0 1.5%;
+            width: 63%;
+        }
+        aside {
+            float: right;
+            margin: 0 1.5%;
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Student Enrollment - Select the Student </h1>
+</header>
+<section>
+    <h2>Select the student to enroll:</h2>
+    <form th:method="GET" th:action="@{/createStudent}" >
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <input type="submit" value="Create Student" /><br/><br/>
+        </th:block>
+    </form>
+    <form th:method="POST" th:action="@{/studentEnrollmentSummary}">
+        <ul>
+            <li th:each="student : ${students}">
+                <input th:type="radio" name="student" th:id="${student.username}" th:text="${student.username}" th:value="${student.username}" />
+                <th:block th:text="${student.getUsername()}"/>
+            </li>
+        </ul>
+        Ocenka: <input type="text" name="grade" /> <br/>
+
+        <input type="submit" value="Submit" />
+        <a href="/studentEnrollmentSummary">Submit</a>
+    </form>
+</section>
+<aside>
+    <table>
+        <tr>
+            <th colspan="2">
+                Your Enrollment Status
+            </th>
+        </tr>
+        <tr>
+            <td><b>Course Id</b></td>
+            <td><div th:text="${session.courseId}"></div></td>
+        </tr>
+    </table>
+</aside>
+
+</body>
+</html>
